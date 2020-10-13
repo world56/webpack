@@ -13,7 +13,6 @@ import './index.less'
 
 import './resource/iconfont/iconfont.css'
 
-
 function add() {
     console.log('JSON122@', json)
     return 1 + 2
