@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/14.5.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js build
+  /usr/local/Cellar/node/14.5.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add optimze-css-assets-webpack-plugin -d
 
 PATH: 
   /Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/bin:.:/Users/dtwave/shengkai/apache-maven-3.6.3/bin:.:/Users/dtwave/shengkai/apache-maven-3.6.3/bin
@@ -14,12 +14,17 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Users/dtwave/Desktop/web/webpack/package.json: Unexpected token } in JSON at position 966
-      at JSON.parse (<anonymous>)
-      at /usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:310:30)
-      at /usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:321:13
+  Error: http://r.dtwave-inc.com/optimze-css-assets-webpack-plugin: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
+      at Request.emit (events.js:314:20)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141720:10)
+      at Request.emit (events.js:314:20)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:420:28)
+      at IncomingMessage.emit (events.js:326:22)
+      at endReadableNT (_stream_readable.js:1226:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -35,7 +40,6 @@ npm manifest:
       "author": "",
       "license": "ISC",
       "dependencies": {
-          "autoprefixer": "^10.0.1",
           "css-loader": "^4.3.0",
           "file-loader": "^6.1.0",
           "html-loader": "^1.3.1",
@@ -43,7 +47,6 @@ npm manifest:
           "less": "^3.12.2",
           "less-loader": "^7.0.1",
           "mini-css-extract-plugin": "^0.12.0",
-          "postcss": "^8.1.1",
           "postcss-loader": "^4.0.4",
           "postcss-preset-env": "^6.7.0",
           "style-loader": "^1.3.0",
@@ -52,6 +55,17 @@ npm manifest:
           "webpack-cli": "^3.3.12",
           "webpack-dev-server": "^3.11.0"
       },
+      "browserslist": {
+          "development": [
+              "last 1 chrome verion",
+              "last 1 firefox verion",
+              "last 1 safari verion"
+          ],
+          "production": [
+              ">0.2%",
+              "not dead"
+          ]
+      }
   }
 
 yarn manifest: 
@@ -497,18 +511,6 @@ Lockfile:
     resolved "https://registry.npm.taobao.org/atob/download/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
     integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
   
-  autoprefixer@^10.0.1:
-    version "10.0.1"
-    resolved "http://r.dtwave-inc.com/autoprefixer/download/autoprefixer-10.0.1.tgz#e2d9000f84ebd98d77b7bc16f8adb2ff1f7bb946"
-    integrity sha1-4tkAD4Tr2Y13t7wW+K2y/x97uUY=
-    dependencies:
-      browserslist "^4.14.5"
-      caniuse-lite "^1.0.30001137"
-      colorette "^1.2.1"
-      normalize-range "^0.1.2"
-      num2fraction "^1.2.2"
-      postcss-value-parser "^4.1.0"
-  
   autoprefixer@^9.6.1:
     version "9.8.6"
     resolved "http://r.dtwave-inc.com/autoprefixer/download/autoprefixer-9.8.6.tgz#3b73594ca1bf9266320c5acf1588d74dea74210f"
@@ -717,7 +719,7 @@ Lockfile:
     dependencies:
       pako "~1.0.5"
   
-  browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4.6.4:
+  browserslist@^4.12.0, browserslist@^4.6.4:
     version "4.14.5"
     resolved "http://r.dtwave-inc.com/browserslist/download/browserslist-4.14.5.tgz#1c751461a102ddc60e40993639b709be7f2c4015"
     integrity sha1-HHUUYaEC3cYOQJk2ObcJvn8sQBU=
@@ -825,7 +827,7 @@ Lockfile:
     resolved "https://registry.npm.taobao.org/camelcase/download/camelcase-6.0.0.tgz#5259f7c30e35e278f1bdc2a4d91230b37cad981e"
     integrity sha1-Uln3ww414njxvcKk2RIws3ytmB4=
   
-  caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001135, caniuse-lite@^1.0.30001137:
+  caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001135:
     version "1.0.30001148"
     resolved "http://r.dtwave-inc.com/caniuse-lite/download/caniuse-lite-1.0.30001148.tgz#dc97c7ed918ab33bf8706ddd5e387287e015d637"
     integrity sha1-3JfH7ZGKszv4cG3dXjhyh+AV1jc=
@@ -2684,14 +2686,6 @@ Lockfile:
       native-request "^1.0.5"
       source-map "~0.6.0"
   
-  line-column@^1.0.2:
-    version "1.0.2"
-    resolved "http://r.dtwave-inc.com/line-column/download/line-column-1.0.2.tgz#d25af2936b6f4849172b312e4792d1d987bc34a2"
-    integrity sha1-0lryk2tvSEkXKzEuR5LR2Ye8NKI=
-    dependencies:
-      isarray "^1.0.0"
-      isobject "^2.0.0"
-  
   lines-and-columns@^1.1.6:
     version "1.1.6"
     resolved "http://r.dtwave-inc.com/lines-and-columns/download/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -2993,11 +2987,6 @@ Lockfile:
     version "2.14.1"
     resolved "https://registry.npm.taobao.org/nan/download/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
     integrity sha1-174036MQW5FJTDFHCJMV7/iHSwE=
-  
-  nanoid@^3.1.12:
-    version "3.1.12"
-    resolved "http://r.dtwave-inc.com/nanoid/download/nanoid-3.1.12.tgz#6f7736c62e8d39421601e4a0c77623a97ea69654"
-    integrity sha1-b3c2xi6NOUIWAeSgx3YjqX6mllQ=
   
   nanomatch@^1.2.9:
     version "1.2.13"
@@ -3796,16 +3785,6 @@ Lockfile:
       chalk "^2.4.2"
       source-map "^0.6.1"
       supports-color "^6.1.0"
-  
-  postcss@^8.1.1:
-    version "8.1.1"
-    resolved "http://r.dtwave-inc.com/postcss/download/postcss-8.1.1.tgz#c3a287dd10e4f6c84cb3791052b96a5d859c9389"
-    integrity sha1-w6KH3RDk9shMs3kQUrlqXYWck4k=
-    dependencies:
-      colorette "^1.2.1"
-      line-column "^1.0.2"
-      nanoid "^3.1.12"
-      source-map "^0.6.1"
   
   prepend-http@^1.0.0:
     version "1.0.4"

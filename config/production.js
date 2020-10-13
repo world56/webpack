@@ -4,8 +4,10 @@ const devServer = require("./devServer");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 // 将css单独打包抽离
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// css兼容性处理插件
+// css兼容性处理
 const PostcssPresetEnv = require("postcss-preset-env");
+// 压缩css
+const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = {
   // 入口
@@ -29,7 +31,12 @@ module.exports = {
           // 直接使用 style-loader 是直接打包进js，然后动态加入style标签
           // "style-loader",
           // 这里尝试打包成静态css文件
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: false,
+            },
+          },
           // 将css文件解析成js字符
           "css-loader",
           {
@@ -38,6 +45,7 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               postcssOptions: {
+                // 可以让postcss-loader 找到browserslist配置
                 plugins: [PostcssPresetEnv],
               },
             },
@@ -101,7 +109,12 @@ module.exports = {
       // 引用一个HTML文件 不需要手动引入资源
       template: "./src/index.html",
     }),
-    new MiniCssExtractPlugin(),
+    // 独立打包css
+    new MiniCssExtractPlugin({
+      filename: "./css/[hash:10].css",
+    }),
+    // 压缩
+    new OptimizeCssAssetsWebpackPlugin({}),
   ],
   // 当前模式
   // 开发:development  生产：production
