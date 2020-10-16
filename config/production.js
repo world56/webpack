@@ -5,10 +5,10 @@ const devServer = require("./devServer");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 // 将css单独打包抽离
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// css兼容性处理
-const PostcssPresetEnv = require("postcss-preset-env");
 // 压缩css
 const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
+// 兼容css
+const { CssLoader } = require("./CssLoader");
 
 module.exports = {
   // 入口
@@ -23,6 +23,7 @@ module.exports = {
   // loader配置 通常用于解析相关文件
   module: {
     rules: [
+      // 转译兼容
       {
         test: /\.js$/,
         // exclude: /\.json$/, // 暂时不处理json
@@ -36,23 +37,17 @@ module.exports = {
               {
                 // 按需加载
                 useBuiltIns: "usage",
-                corejs: {
-                  version: 3,
-                },
-                // 指定兼容性做到哪个版本浏览器
-                targets: {
-                  chrome: "60",
-                  firefox: "60",
-                  ie: "9",
-                },
+                corejs: 3,
+                targets: "> 5%",
               },
             ],
           ],
-          // 插件还能以沙箱垫片的方式防止污染全局
-          //抽离公共的 helper function , 以节省代码的冗余
           plugins: [
+            // 插件还能以沙箱垫片的方式防止污染全局
+            //抽离公共的 helper function , 以节省代码的冗余
             "@babel/plugin-transform-runtime",
-            "@babel/plugin-transform-modules-commonjs"
+            // 转成commonJS模块语法
+            // "@babel/plugin-transform-modules-commonjs",
           ],
         },
       },
@@ -71,51 +66,16 @@ module.exports = {
 
       // 解析css
       {
-        // test 匹配格式 这里一般用正则进行匹配
         test: /\.css$/,
         // 使用 加载顺序是倒叙加载的
-        use: [
-          // 这里尝试打包成静态css文件
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              esModule: false,
-              publicPath: "../",
-            },
-          },
-          // 将css文件解析成js字符
-          "css-loader",
-          {
-            // css 兼容性处理插件 先进行兼容性处理
-            // 设置环境 process.env.NODE_DEV = "development"
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                // 可以让postcss-loader 找到browserslist配置
-                plugins: [PostcssPresetEnv],
-              },
-            },
-          },
-        ],
+        use: CssLoader,
       },
 
-      // 解析less 并打包进入至js 可以动态引入html style标签
+      // 解析less
       {
         test: /\.less$/,
-        use: [
-          // 直接打包进入js 并且动态通过js创建stlye标签引入
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: "../",
-            },
-          },
-          // "style-loader",
-          // 解析成可识别css代码
-          "css-loader",
-          // 配置第三方css解析 应该先解析成css在插入成style标签
-          "less-loader",
-        ],
+        // 配置第三方css解析 应该先解析成css在插入成style标签
+        use: CssLoader.concat(['less-loader']),
       },
 
       {
@@ -166,6 +126,12 @@ module.exports = {
     new HTMLWebpackPlugin({
       // 引用一个HTML文件 不需要手动引入资源
       template: "./src/index.html",
+      minify: {
+        // 折叠空格
+        collapseWhitespace: true,
+        // 移出注释
+        removeComments: true,
+      },
     }),
     // 独立打包css
     new MiniCssExtractPlugin({
@@ -176,6 +142,6 @@ module.exports = {
   ],
   // 当前模式
   // 开发:development  生产：production
-  mode: "development",
+  mode: "production",
   devServer,
 };

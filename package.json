@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "webpack --mode=development --config ./config/webpack.config",
+        "build": "webpack --config ./config/webpack.config",
         "start": "yarn webpack-dev-server --config ./config/webpack.config",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -12,6 +12,7 @@
     "license": "ISC",
     "dependencies": {
         "@babel/core": "^7.12.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
         "@babel/plugin-transform-modules-commonjs": "^7.10.4",
         "@babel/plugin-transform-runtime": "^7.12.0",
         "@babel/preset-env": "^7.12.0",
@@ -45,8 +46,9 @@
             "last 1 safari verion"
         ],
         "production": [
-            ">0.2%",
-            "not dead"
+            "> 0.2%",
+            "not dead",
+            "not op_mini all"
         ]
     },
     "eslintConfig": {
