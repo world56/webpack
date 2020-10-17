@@ -12,7 +12,7 @@ const { CssLoader } = require("./CssLoader");
 
 module.exports = {
   // 入口
-  entry: "./src/index.js",
+  entry: ["./src/index.js", "./src/index.html"],
   // 出口
   output: {
     // 打包名
@@ -26,7 +26,7 @@ module.exports = {
       // 转译兼容
       {
         test: /\.js$/,
-        // exclude: /\.json$/, // 暂时不处理json
+        exclude: /node_modules/,
         loader: "babel-loader",
         options: {
           // js语法兼容到 es5
@@ -38,7 +38,6 @@ module.exports = {
                 // 按需加载
                 useBuiltIns: "usage",
                 corejs: 3,
-                targets: "> 5%",
               },
             ],
           ],
@@ -56,8 +55,10 @@ module.exports = {
       {
         test: /\.js$/,
         // 排除 对/node_modules/的检查
-        exclude: "/node_modules/",
+        exclude: /node_modules/,
         loader: "eslint-loader",
+        // 优先执行
+        enforce: "pre",
         options: {
           // 自动修复
           fix: true,
@@ -75,7 +76,7 @@ module.exports = {
       {
         test: /\.less$/,
         // 配置第三方css解析 应该先解析成css在插入成style标签
-        use: CssLoader.concat(['less-loader']),
+        use: CssLoader.concat(["less-loader"]),
       },
 
       {
@@ -86,7 +87,7 @@ module.exports = {
         loader: "url-loader",
         // 相应配置
         options: {
-          // 图片大小小于8kn，就会被base64处理
+          // 图片大小小于8kb，就会被base64处理
           limit: 8 * 1024,
           // 关闭es6模块化解析 使用commonJS解析
           esModule: false,
@@ -142,6 +143,9 @@ module.exports = {
   ],
   // 当前模式
   // 开发:development  生产：production
-  mode: "production",
+  mode: "development",
   devServer,
+  devtool: "source-map",
 };
+
+// console.log('@ENV',process.env.NODE_DEV)

@@ -13,10 +13,12 @@ import json from './json.json';
 import './index.css';
 import './index.less';
 import './resource/iconfont/iconfont.css';
+import running from './running';
 
 function add() {
   // eslint-disable-next-line
   console.log("JSON122@", json);
+  running();
   return 1 + 2;
 }
 
