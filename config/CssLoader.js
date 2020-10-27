@@ -5,10 +5,12 @@ const PostcssPresetEnv = require("postcss-preset-env");
 // 将css单独打包抽离
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+console.log("@IsDev", IsDev);
+
 /**
- * @name CssCompatible css兼容处理
+ * @name PostCssCompatible css兼容处理
  */
-const CssCompatible = {
+const PostCssCompatible = {
   // 设置环境 process.env.NODE_DEV = "development"
   loader: "postcss-loader",
   options: {
@@ -36,16 +38,13 @@ const CssToStaticFile = {
  * @param styleLoader 是直接打包进入js 并且动态通过js创建stlye标签引入
  */
 const CssLoader = [
-  // IsDev ? "style-loader" : CssToStaticFile,
-  "style-loader",
+  IsDev ? CssToStaticFile : "style-loader",
   "css-loader",
-  CssCompatible,
+  PostCssCompatible,
 ];
-
-console.log("@IsDev", IsDev);
 
 module.exports = {
   CssLoader,
   CssToStaticFile,
-  CssCompatible,
+  PostCssCompatible,
 };

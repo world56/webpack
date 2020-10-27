@@ -1,24 +1,26 @@
-const { resolve } = require("path");
+const { resolve } = require('path');
 // const {deleteFolder} = require('../script/build')
-const devServer = require("./devServer");
 // 打包html
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 // 将css单独打包抽离
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // 压缩css
-const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const devServer = require('./devServer');
 // 兼容css
-const { CssLoader } = require("./CssLoader");
+const { CssLoader } = require('./CssLoader');
+
+const devtool = require('./devtool')
 
 module.exports = {
   // 入口
-  entry: ["./src/index.js", "./src/index.html"],
+  entry: ['./src/index.js', './src/index.html'],
   // 出口
   output: {
     // 打包名
-    filename: "js/build.js",
+    filename: 'js/build.js',
     // 输出文件夹地址
-    path: resolve(__dirname, "../build"),
+    path: resolve(__dirname, '../build'),
   },
   // loader配置 通常用于解析相关文件
   module: {
@@ -27,24 +29,24 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
           // js语法兼容到 es5
           // @babel/preset-env 只做基本语法兼容
           presets: [
             [
-              "@babel/preset-env",
+              '@babel/preset-env',
               {
                 // 按需加载
-                useBuiltIns: "usage",
+                useBuiltIns: 'usage',
                 corejs: 3,
               },
             ],
           ],
           plugins: [
             // 插件还能以沙箱垫片的方式防止污染全局
-            //抽离公共的 helper function , 以节省代码的冗余
-            "@babel/plugin-transform-runtime",
+            // 抽离公共的 helper function , 以节省代码的冗余
+            '@babel/plugin-transform-runtime',
             // 转成commonJS模块语法
             // "@babel/plugin-transform-modules-commonjs",
           ],
@@ -52,18 +54,18 @@ module.exports = {
       },
 
       // eslint 校验
-      {
-        test: /\.js$/,
-        // 排除 对/node_modules/的检查
-        exclude: /node_modules/,
-        loader: "eslint-loader",
-        // 优先执行
-        enforce: "pre",
-        options: {
-          // 自动修复
-          fix: true,
-        },
-      },
+      // {
+      //   test: /\.js$/,
+      //   // 排除 对/node_modules/的检查
+      //   exclude: /node_modules/,
+      //   loader: 'eslint-loader',
+      //   // 优先执行
+      //   enforce: 'pre',
+      //   options: {
+      //     // 自动修复
+      //     fix: true,
+      //   },
+      // },
 
       // 解析css
       {
@@ -76,7 +78,9 @@ module.exports = {
       {
         test: /\.less$/,
         // 配置第三方css解析 应该先解析成css在插入成style标签
-        use: CssLoader.concat(["less-loader"]),
+        use: CssLoader.concat(['less-loader']),
+        // 排除node_modules资源目录
+        exclude: /node_modules/,
       },
 
       {
@@ -84,7 +88,7 @@ module.exports = {
         // warning 处理不了html元素src引入的图片 用html-loader可以解决
         test: /\.(jpg|png|jpeg|gif)$/,
         // 只使用一个loader (依赖于file-loader)
-        loader: "url-loader",
+        loader: 'url-loader',
         // 相应配置
         options: {
           // 图片大小小于8kb，就会被base64处理
@@ -93,9 +97,9 @@ module.exports = {
           esModule: false,
           // 资源重命名
           // hash 哈希截取第十位 ext原文件名
-          name: "[hash:10].[ext]",
+          name: '[hash:10].[ext]',
           // 输出地址
-          outputPath: "img",
+          outputPath: 'img',
         },
       },
 
@@ -104,29 +108,33 @@ module.exports = {
         // 所以需要关闭url-loader的es模块化规范
         test: /\.html$/,
         use: {
-          loader: "html-loader",
+          loader: 'html-loader',
         },
       },
 
       // 排除其他资源(除了html css js资源的其他资源)
+      // include 只要
+      // exclude 排除
       {
-        exclude: /\.(css|js|html|jpg|png|jpeg|gif|json|less)$/,
+        include:/\.(woff|svg|ttf|eot)$/,
+        // exclude: /\.(css|js|html|jpg|png|jpeg|gif|json|less)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[hash:10].[ext]",
-            outputPath: "media",
+            name: '[hash:10].[ext]',
+            outputPath: 'media',
           },
         },
       },
     ],
   },
+
   // 插件
   plugins: [
     // 打包html文件
     new HTMLWebpackPlugin({
       // 引用一个HTML文件 不需要手动引入资源
-      template: "./src/index.html",
+      template: './src/index.html',
       minify: {
         // 折叠空格
         collapseWhitespace: true,
@@ -136,16 +144,20 @@ module.exports = {
     }),
     // 独立打包css
     new MiniCssExtractPlugin({
-      filename: "./css/[hash:10].css",
+      filename: './css/[hash:10].css',
     }),
     // 压缩
     new OptimizeCssAssetsWebpackPlugin(),
   ],
   // 当前模式
   // 开发:development  生产：production
-  mode: "development",
+  mode: 'development',
   devServer,
-  devtool: "source-map",
+  // 映射编译前后代码 方便调试
+  devtool,
 };
 
 // console.log('@ENV',process.env.NODE_DEV)
+// "eslintConfig": {
+//   "extends": "airbnb-base"
+// }

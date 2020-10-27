@@ -48,7 +48,5 @@
             "not op_mini all"
         ]
     },
-    "eslintConfig": {
-        "extends": "airbnb-base"
-    }
+    "eslintConfig": {}
 }

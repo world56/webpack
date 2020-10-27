@@ -8,7 +8,6 @@
  * @warning webpack不能对css、img进行识别 需要配置loader
  */
 // @babel/polyfill 能兼容一些更新的语法 例如promise 但是引入体积会过大
-
 import json from './json.json';
 import './index.css';
 import './index.less';
@@ -17,7 +16,7 @@ import running from './running';
 
 function add() {
   // eslint-disable-next-line
-  console.log("JSON122@", json);
+  console.log("JSON122@", json)();
   running();
   return 1 + 2;
 }
