@@ -9,7 +9,7 @@
  * @
  * @warn 速度 eval inline cheap 最快组合 eval-cheap-souce-map
  */
-module.exports = '';
+module.exports = 'none';
 
 /**
  * @速度比较

@@ -6,13 +6,13 @@ const { resolve } = require("path");
  * 指令 webpack-dev-server
  */
 
-
-
 module.exports = {
   // 路径
   contentBase: resolve(__dirname, "hash"),
   // gzip压缩
   compress: true,
+  // 监听文件变化
+  watchContentBase:true,
   // 端口号
   port: 3003,
   // 默认打开浏览器
